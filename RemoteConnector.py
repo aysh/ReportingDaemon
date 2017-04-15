@@ -11,12 +11,16 @@ REPORT_PARAM_NAME = "status"
 def send_report(CCId, SensorID, OccState):
     parameterString = json.dumps({
         "ccid": CCId,
-        "ts": (datetime.datetime.utcnow() - datetime.datetime.utcfromtimestamp(0)).total_seconds(),
+        "ts": int((datetime.datetime.utcnow() - datetime.datetime.utcfromtimestamp(0)).total_seconds()),
         "d": [{ "sid": SensorID, "eid": 0, "occ": OccState }]
         })
     print parameterString
     queryString = urllib.urlencode({REPORT_PARAM_NAME: parameterString})
-    urlString = "http://"+REPORT_DOMAIN+"/"+REPORT_ENDPOINT+"?"+queryString
+    if REPORT_HTTPS:
+        urlString = "https://"
+    else:
+        urlString = "http://"
+    urlString += REPORT_DOMAIN+"/"+REPORT_ENDPOINT+"?"+queryString
     reader = urllib.urlopen(urlString)
     responseString = reader.read()
     print responseString
