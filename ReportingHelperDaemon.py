@@ -1,6 +1,7 @@
 import socket
 import sys
 import struct
+import ReportProcessor
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,6 +28,7 @@ while True:
             if recvData:
                 print >>sys.stderr, 'sending data back to the client'
                 connection.sendall(recvData)
+                ReportProcessor.raw_report_handler(ieeeAddress, occupancyState)
             else:
                 print >>sys.stderr, 'no more data from', client_address
                 break
