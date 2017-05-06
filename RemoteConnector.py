@@ -21,6 +21,7 @@ def send_report(CCId, SensorID, OccState):
     else:
         urlString = "http://"
     urlString += REPORT_DOMAIN+"/"+REPORT_ENDPOINT+"?"+queryString
+    print urlString
     reader = urllib.urlopen(urlString)
     responseString = reader.read()
     print responseString
